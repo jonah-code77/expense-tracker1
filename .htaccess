@@ -1,0 +1,14 @@
+
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Base folder
+RewriteBase /expense-tracker
+
+
+# USER ROUTES 
+# If the requested file/folder doesn't exist, send everything else to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

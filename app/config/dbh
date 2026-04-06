@@ -1,0 +1,22 @@
+<?php
+
+class Dbh{
+    private $host = "localhost";
+    private $dbname = "expense-tracker1";
+    private $user = "root";
+    private $pwd = "";
+    protected $conn;
+
+    public function __construct()
+    {
+        try {
+            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
+            $this->conn = new PDO($dsn,$this->user,$this->pwd);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            return $this->conn;
+        } catch (PDOException $e) {
+           die("Connection failed: ". $e->getMessage());
+        }
+    }
+ }
