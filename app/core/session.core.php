@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Core;
 class Session {
 
     //check if session is started already, if not it start a new session;

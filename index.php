@@ -26,9 +26,8 @@ if (!$routeKey) {
 // Middleware Map
 function resolveMiddleware($name){
     $map = [
-        'auth' => AuthMiddleware::class,
-        'admin' => AdminMiddleware::class, 
-        'api' => ApiMiddleware::class,
+        'auth' => AuthMiddleware::class, 
+        'api' => ApiMiddleware::class
     ];
 
     if (!isset($map[$name])) {

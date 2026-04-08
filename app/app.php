@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Session;
 
 //BASE URL
 DEFINE('BASE_URL', '/expense-tracker');
@@ -16,6 +17,7 @@ spl_autoload_register(function($class){
     foreach($paths as $path){
         
         foreach($exts as $ext){
+            $class = str_replace('\\', '/', $class);
             $fullPath = $path . strtolower($class) . $ext;
             if (file_exists($fullPath)) {
                 try {

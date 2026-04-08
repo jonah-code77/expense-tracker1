@@ -1,4 +1,5 @@
 <?php
+namespace App\Controller\Api;
 class jsonResApi{
     public static function Response($data, $statusCode = 200){
         http_response_code($statusCode);
