@@ -1,17 +1,15 @@
 <?php
-
-namespace App\Config\dbh;
-use PDO;
+namespace App\Config;
+use Pdo;
 use PDOException;
 class Dbh{
     private $host = "localhost";
-    private $dbname = "expense-tracker1";
+    private $dbname = "expense_tracker";
     private $user = "root";
     private $pwd = "";
     protected $conn;
 
-    public function __construct()
-    {
+    public function __construct(){
         try {
             $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
             $this->conn = new PDO($dsn,$this->user,$this->pwd);
@@ -22,4 +20,5 @@ class Dbh{
            die("Connection failed: ". $e->getMessage());
         }
     }
+
  }

@@ -1,8 +1,8 @@
 <?php
 namespace App\Model;
-use App\Config\Dbh\Dbh;
+use App\Config\Dbh;
 
-class users extends Dbh {
+class Users extends Dbh {
 
     public function getUserById($id){
         $sql = "SELECT * FROM users WHERE id = ?";
@@ -28,15 +28,11 @@ class users extends Dbh {
     }
 
     //login 
-    public function logIn($nameorEmail,$password){
+    public function logIn($nameorEmail){
         $sql = "SELECT * FROM users WHERE name = ? OR email = ? LIMIT 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$nameorEmail,$nameorEmail]);
-        $user = $stmt->fetch();
-        if ($user && password_verify($password,$user['password'])) {
-            return $user;
-        }
-        return false;    
+        return $stmt->fetch();    
     }
     
 }

@@ -75,7 +75,7 @@ class View {
     }
 
     public static function getCurrentPage(){
-        return self::$currentPage ?? '';
+        self::$currentPage ?? '';
     }
 }
 

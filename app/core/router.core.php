@@ -1,4 +1,5 @@
 <?php
+namespace App\Core;
 
 class Router{
     //intial state of routes,prefix,controller and middleware
@@ -88,7 +89,7 @@ class Router{
     }
 
     //resolved routes
-     public static function resolve($method, $uri){
+    public static function resolve($method, $uri){
         $uri = trim($uri, '/');
         $segments = explode('/', $uri);
 

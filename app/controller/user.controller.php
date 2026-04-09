@@ -1,10 +1,10 @@
 <?php
 namespace App\Controller;
-use App\Model\users;
+use App\Model\Users;
 use App\Core\Session;
 use App\Core\View;
 
-class user {
+class User {
 
     private $user;
 
@@ -16,35 +16,14 @@ class user {
     }
 
     //view Register Form
-    public function register(){}
-    //registration controller
+    public function register(){
+        View::views("auth/register");
+    }
 
 
 
     //login users
     public function logIn(){
-        $errMsg = [];
-        if (isset($_POST['btn'])) {
-            $nameorEmail = ucfirst(trim($_POST['nameorEmail']));
-            $password = trim($_POST['password']); 
-
-            if (!empty($nameorEmail && $password)) {
-                $user = $this->user->logIn($nameorEmail,$password);
-                if($user){
-                    Session::setSession('name',$user['name']);
-                    Session::setSession('user_id',$user['id']);
-                    header("location:". BASE_URL ."/home");
-                    
-                }else{
-                    $errMsg[] =  "invalid details";
-                }
-
-                
-            }else{
-                $errMsg[] = "please fill in details";
-            }
-
-        }
-        View::views('auth/login',['errMsg'=>$errMsg]);
+        View::views("auth/login");
     }
 }

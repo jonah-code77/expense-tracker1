@@ -1,5 +1,6 @@
 <?php
-
+namespace App\Core;
+//use finfo;
 class Validator{
     //required validation
     public static function required($value, $msg){
@@ -58,7 +59,7 @@ class Validator{
             return "invalid image file";
         }
 
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mime = $finfo->file($file['tmp_name']);
         $allowedMine = [
             'image/jpeg',
@@ -104,7 +105,7 @@ class Validator{
             };
         }
 
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mime = $finfo->file($file['tmp_name']);
 
         $allowedMime = [

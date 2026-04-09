@@ -4,7 +4,7 @@
 RewriteEngine On
 
 # Base folder
-RewriteBase /expense-tracker
+RewriteBase /expense-tracker1/
 
 
 # USER ROUTES 

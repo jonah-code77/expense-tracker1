@@ -1,19 +1,24 @@
 <?php
 require "app/app.php";
+use App\Controller\Api\JsonResApi;
+use App\Core\Router;
+use App\Middleware\ApiMiddleware;
+use App\Middleware\AuthMiddleware;
 
 // Get URL
-$url = $_GET['url'] ?? 'index';
+$url = $_GET['url'] ?? 'logIn';
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Load routes
 require_once 'routes.php';
+require_once 'api.php';
 
 // RESOLVE ROUTE
 $routeKey = Router::resolve($method, $url);
 
 // Route not found
 if (!$routeKey) {
-    jsonResApi::Response([
+    JsonResApi::Response([
         "status" => "error",
         "msg" => "Route Not Found"
     ],404);
