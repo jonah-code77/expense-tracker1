@@ -9,9 +9,7 @@ DEFINE("BASE_PATH",__DIR__."/../");
 //Autoload Files
 spl_autoload_register(function($class){
 
-    if (strpos($class, 'App\\') !== 0) {
-        return;
-    }
+    if (strpos($class, 'App\\') !== 0) return;
 
     $path = str_replace('\\', '/', $class);
     $path = str_replace('App/', '', $path);

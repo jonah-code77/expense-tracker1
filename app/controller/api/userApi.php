@@ -34,8 +34,8 @@ class UserApi{
         if (!empty($errMsg)) {
             jsonResApi::Response([
                 "status" => "error",
-                "errors" => $errMsg
-            ],405);
+                "msg" => $errMsg
+            ],400);
                 
         }
 
@@ -55,7 +55,7 @@ class UserApi{
        }else{
         jsonResApi::Response([
             'status'=> 'error',
-            'errors'=> 'failed to fetch new user'
+            'msg'=> 'failed to fetch new user'
         ],400);
        }
     }

@@ -23,7 +23,7 @@ class User {
 
 
     //login users
-    public function logIn(){
+    public function login(){
         View::views("auth/login");
     }
 }
