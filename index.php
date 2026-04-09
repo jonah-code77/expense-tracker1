@@ -2,6 +2,7 @@
 require "app/app.php";
 use App\Controller\Api\JsonResApi;
 use App\Core\Router;
+use App\Core\Env;
 use App\Middleware\ApiMiddleware;
 use App\Middleware\AuthMiddleware;
 
@@ -12,6 +13,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Load routes
 require_once 'routes.php';
 require_once 'api.php';
+Env::load(BASE_PATH . '.env');
 
 // RESOLVE ROUTE
 $routeKey = Router::resolve($method, $url);

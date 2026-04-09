@@ -23,7 +23,7 @@ spl_autoload_register(function($class){
             return;
         }
     }
-    throw new Exception("Autoload Error: Class '$class' not found. Tried: ". implode(', ', $filePath));
+    throw new \Exception("Autoload Error: Class '$class' not found. Tried: ". implode(', ', $filePath));
 });
 
 Session::start();
