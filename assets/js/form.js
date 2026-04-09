@@ -20,7 +20,7 @@ class app {
         .then(res => res.json())          
         .then(data => {
             if (data.status === "success") {
-                this.showMessage(data.msg, "success"); 
+                //this.showMessage(data.msg, "success"); 
 
                 if (data.redirect) {
                     setTimeout(() => {

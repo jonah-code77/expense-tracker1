@@ -6,27 +6,36 @@ use Pdo;
 use PDOException;
 
 class Dbh{
-    private $host;
-    private $dbname ;
-    private $user;
-    private $pwd;
+    private static $instance = null;
+
     protected $conn;
 
-    public function __construct(){
-        $this->host = $_ENV['DB_HOST'];
-        $this->dbname = $_ENV['DB_NAME'];
-        $this->user = $_ENV['DB_USER'];
-        $this->pwd = $_ENV['DB_PASS'];
+    private function __construct(){
+      $host = $_ENV['DB_HOST'];
+        $dbname = $_ENV['DB_NAME'];
+        $user = $_ENV['DB_USER'];
+        $pwd = $_ENV['DB_PASS'];
 
         try {
-            $dsn = "mysql:host=" . $this->host . "; dbname=" . $this->dbname;
-            $this->conn = new PDO($dsn,$this->user,$this->pwd);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            return $this->conn;
+            $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
+            $this->conn = new PDO($dsn, $user, $pwd, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
         } catch (PDOException $e) {
            die("Connection failed: ". $e->getMessage());
         }
+    }
+
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    public function getConnection() {
+        return $this->conn;
     }
 
  }

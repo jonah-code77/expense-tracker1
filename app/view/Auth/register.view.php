@@ -98,7 +98,7 @@ Register
 <?php View::section('footer-link'); ?>
     <p class="text-center mt-4 mb-0" style="font-size:13px;color:#6b7280">
         Already have an account?
-        <a href="<?= BASE_URL ?>/logIn" class="text-link">Sign in</a>
+        <a href="<?= BASE_URL ?>/login" class="text-link">Sign in</a>
     </p>
 <?php View::endSection(); ?>
 
@@ -116,9 +116,9 @@ Register
         const label = document.getElementById('pwLabel');
         if (!val) { fill.style.width = '0%'; label.textContent = ''; return; }
         let score = 0;
-        if (val.length >= 8)          score++;
-        if (/[A-Z]/.test(val))        score++;
-        if (/[0-9]/.test(val))        score++;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
         if (/[^A-Za-z0-9]/.test(val)) score++;
         const levels = [
             { w: '25%', bg: '#dc2626', text: 'Weak' },
@@ -127,10 +127,10 @@ Register
             { w: '100%', bg: '#16a34a', text: 'Strong' }
         ];
         const l = levels[score - 1] || levels[0];
-        fill.style.width      = l.w;
+        fill.style.width = l.w;
         fill.style.background = l.bg;
-        label.textContent     = l.text;
-        label.style.color     = l.bg;
+        label.textContent = l.text;
+        label.style.color = l.bg;
     }
 </script>
 <?php View::endSection(); ?>

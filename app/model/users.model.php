@@ -1,8 +1,9 @@
 <?php
 namespace App\Model;
-use App\Config\Dbh;
 
-class Users extends Dbh {
+use App\Core\Model;
+
+class Users extends Model {
 
     public function getUserById($id){
         $sql = "SELECT * FROM users WHERE id = ?";
