@@ -4,6 +4,7 @@ use App\Model\transactions;
 //use App\Model\Category;
 use App\Core\Session;
 use App\Core\View;
+
 class Dashboard{
     private $transactionModel;
     private $categoryModel;

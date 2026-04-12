@@ -1,6 +1,6 @@
 <?php
 require "app/app.php";
-use App\Controller\Api\JsonResApi;
+use App\Core\JsonResApi;
 use App\Core\Router;
 use App\Core\Env;
 use App\Middleware\ApiMiddleware;

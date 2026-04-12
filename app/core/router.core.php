@@ -78,7 +78,7 @@ class Router{
         // Merge middleware
         $routeMiddleware = array_merge(
             self::$currentMiddleware,
-            is_array($middleware) ? $middleware : [$middleware]
+            \is_array($middleware) ? $middleware : [$middleware]
         );
 
         self::$routes[$method][$fullPath] = [
@@ -104,7 +104,7 @@ class Router{
         foreach ($routes as $pattern => $route) {
             $patternSegments = explode('/', $pattern);
 
-            if (count($patternSegments) !== count($segments)) {
+            if (\count($patternSegments) !== \count($segments)) {
                 continue;
             }
 

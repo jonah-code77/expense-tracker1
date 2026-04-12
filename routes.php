@@ -1,10 +1,17 @@
 <?php
 use App\Core\Router;
-
+use App\Controller\Dashboard;
+use App\Controller\User;
 //Public Routes
-Router::group('', ['controller' => App\Controller\User::class], function(){
+Router::group('', ['controller' => User::class], function(){
     Router::get('login', 'login');
     Router::get('register', 'register');
 });
 
-Router::get('home',[ App\Controller\Dashboard::class,  'MainDahboard'], 'auth');
+//Home Routes
+Router::group('home', ['controller'=> Dashboard::class,
+'middleware'=> 'auth'
+], function(){
+    Router::get('', 'MainDahboard');
+    Router::get('', 'dashboard');
+});

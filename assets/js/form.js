@@ -20,12 +20,9 @@ class app {
         .then(res => res.json())          
         .then(data => {
             if (data.status === "success") {
-                //this.showMessage(data.msg, "success"); 
 
                 if (data.redirect) {
-                    setTimeout(() => {
-                        window.location.href = data.redirect;
-                    }, 2000);  
+                     window.location.href = data.redirect;     
                 }
             }else {
                 const errorMsg = typeof data.msg === "object"
@@ -50,8 +47,8 @@ class app {
     }
 }
 
-new app("regForm", "msg", `registerr`)
-new app("logIn", "msg", "logInn");
+new app("regForm", "msg", `register`)
+new app("logIn", "msg", "login");
 
 
 
