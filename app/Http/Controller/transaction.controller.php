@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Http\Controller;
 use App\Model\transactions;
 use App\Model\Category;
 use App\Core\Session;
@@ -17,7 +17,7 @@ class transaction {
 
     public function transactionDashboard(){
         $userId = Session::getSession('user_id');
-        $transactions = $this->transaction->getTransactions($userId);
+        $transactions = $this->transaction->getMonthly($userId);
         $transactions = $this->getFilteredTransaction($userId);
         View::views('transaction/dashboard', ['transactions' => $transactions], 'public');
     }
@@ -41,7 +41,7 @@ class transaction {
         $getDate = trim($_GET['getDate'] ?? '');
         $errMsg = [];
 
-        if (empty($type) && !in_array($type,['income','expenses', 'All types'] )) {
+        if (empty($type) && !\in_array($type,['income','expenses', 'All types'] )) {
             $errMsg[] = "Please pick a type";
             $type = "";
         }
@@ -141,7 +141,7 @@ class transaction {
             $desc = trim($_POST['descr']);
 
             if(is_numeric($amount) && !empty($desc)){
-                $result = $this->transaction->addTransaction($userId,$categoryId, $amount, $desc);
+                $result = $this->transaction->create($userId,$categoryId, $amount, $desc);
                 if ($result) {
                     header("location:". BASE_URL . "/transaction/dashboard");
                 }else{
@@ -219,7 +219,7 @@ class transaction {
 
     public function getTotals(){
         $userId = Session::getSession('user_id');
-        $total = $this->transaction->getTotal($userId);
+        $total = $this->transaction->getTotals($userId);
         View::views('home', ['total'=>$total], 'public');
     }
 

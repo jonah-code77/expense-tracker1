@@ -1,5 +1,5 @@
 <?php
-namespace App\Middleware;
+namespace App\Http\Middleware;
 
 
 class ApiMiddleware implements MiddlewareInterface{

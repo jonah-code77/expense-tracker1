@@ -5,17 +5,25 @@ use App\Core\Model;
 
 class transactions extends Model {
 
+    private function baseQuery(){
+        return "FROM transactions t 
+                JOIN categories c ON t.category_id = c.id 
+                WHERE t.user_id = ?";
+    }
+
     //get all transactions
-    public function getTransactions($userId){
-        $sql = "SELECT transactions .*, categories.name, categories.type 
-        FROM transactions JOIN categories ON transactions.category_id = categories.id 
-        WHERE transactions.user_id = ? 
-        AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE()) 
-        ORDER BY transactions.date ASC";
+    public function getMonthly($userId){
+        $sql = "SELECT t.*, c.name, c.type 
+                " . $this->baseQuery() . " 
+                AND MONTH(t.date) = MONTH(CURRENT_DATE()) 
+                AND YEAR(t.date) = YEAR(CURRENT_DATE())
+                ORDER BY t.date ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetchAll();       
     }
+
+    
 
     //search
     public function Search($userId,$search){
@@ -62,7 +70,7 @@ class transactions extends Model {
     }
 
     //get recent transaction
-    public function getRecentTransaction($userId, $limit = 3){
+   public function getRecentTransaction($userId, $limit = 3){
         $sql = "SELECT transactions .*, categories.name, categories.type FROM transactions JOIN categories 
         ON transactions.category_id = categories.id WHERE transactions.user_id = ? 
         AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE()) 
@@ -82,7 +90,7 @@ class transactions extends Model {
 
 
     //add to transaction
-    public function addTransaction($userId,$categoryId,$amount, $description){
+    public function create($userId,$categoryId,$amount, $description){
         $sql = "INSERT INTO transactions (user_id, category_id, amount, description, date) VALUES(?, ?, ?, ?, NOW())";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$userId, $categoryId, $amount, $description]);
@@ -110,26 +118,48 @@ class transactions extends Model {
     }
 
     //summary of amount spent in total
-    public function getTotal($userId){
+    public function getTotals($userId){
         $sql = "SELECT SUM(CASE WHEN trim(LOWER(c.type)) = 'income' THEN t.amount ELSE 0 END) AS total_income, 
         SUM(CASE WHEN trim(LOWER(c.type)) = 'expenses' THEN t.amount ELSE 0 END) AS total_expenses 
         FROM transactions t 
-        JOIN categories c ON t.category_id = c.id WHERE t.user_id = ? AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())";
+                JOIN categories c ON t.category_id = c.id 
+                WHERE t.user_id = ?
+        AND MONTH(t.date) = MONTH(CURRENT_DATE()) 
+        AND YEAR(t.date) = YEAR(CURRENT_DATE())";
         
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$userId]);
-        $result =  $stmt->fetch();
+        return $stmt->fetch();
         
-        $totalIncome = $result['total_income'] ?? 0;
-        $totalExpense = $result['total_expenses'] ?? 0;
-        $balance = $totalIncome - $totalExpense;
+    }
 
-        return [
-            'total_income'=>$totalIncome,
-            'total_expenses'=>$totalExpense,
-            'balance'=>$balance
-        ];
+    public function getLastMonthTotals($userId){
+        $sql = "SELECT 
+                SUM(CASE WHEN LOWER(TRIM(c.type)) = 'income' THEN t.amount ELSE 0 END) as income,
+                SUM(CASE WHEN LOWER(TRIM(c.type)) = 'expense' THEN t.amount ELSE 0 END) as expense
+                FROM transactions t 
+                JOIN categories c ON t.category_id = c.id 
+                WHERE t.user_id = ?
+                AND MONTH(t.date) = MONTH(CURRENT_DATE() - INTERVAL 1 MONTH)
+                AND YEAR(t.date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetch();
+    }
+
+    public function getCategoryBreakdown($userId){
+        $sql = "SELECT c.name, SUM(t.amount) as total 
+                " . $this->baseQuery() . "
+                AND LOWER(TRIM(c.type)) = 'expense'
+                GROUP BY c.name";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll();
     }
 
     public function getTransactionsByCategory($categoryId,$userId){
@@ -165,6 +195,8 @@ class transactions extends Model {
         $stmt->execute([$userId,$month,$year]);
         return $stmt->fetch();
     }
+
+ 
 
 
 }

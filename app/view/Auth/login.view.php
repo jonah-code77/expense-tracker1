@@ -41,7 +41,7 @@ Login
             <label class="form-label" for="nameorEmail">Email or username</label>
             <div class="input-icon-wrap">
                 <i class="bi bi-envelope field-icon"></i>
-                <input type="text" class="form-control" id="nameorEmail" name="nameorEmail"
+                <input type="text" class="form-control" id="nameorEmail" name="nameOrEmail"
                        placeholder="you@example.com" autocomplete="email">
             </div>
         </div>

@@ -17,7 +17,13 @@ class app {
             method: "POST",
             body: new FormData(this.form) 
         })                          
-        .then(res => res.json())          
+        .then(res => {
+            const contentType = res.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error(`Server returned non-JSON response (${res.status})`);
+            }
+            return res.json();
+        })         
         .then(data => {
             if (data.status === "success") {
 
@@ -26,7 +32,8 @@ class app {
                 }
             }else {
                 const errorMsg = typeof data.msg === "object"
-                    ? Object.values(data.msg).join("<br>")
+                    ? Object.entries(data.msg).map(([field, msg]) =>
+                         `${field}: ${msg}`).join("<br>")
                     : data.msg;
 
                 this.showMessage(errorMsg, "error");

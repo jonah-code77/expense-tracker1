@@ -1,5 +1,5 @@
 <?php
-namespace App\Middleware;
+namespace App\Http\Middleware;
 use App\Core\Session;
 class AdminMiddleware implements MiddlewareInterface {
     public function handle() {

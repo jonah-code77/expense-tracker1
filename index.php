@@ -1,11 +1,14 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require "app/app.php";
 use App\Core\JsonResApi;
 use App\Core\Router;
 use App\Core\Env;
-use App\Middleware\ApiMiddleware;
-use App\Middleware\AuthMiddleware;
-
+use App\Http\Middleware\ApiMiddleware;
+use App\Http\Middleware\AuthMiddleware;
 // Get URL
 $url = $_GET['url'] ?? 'logIn';
 $method = $_SERVER['REQUEST_METHOD'];
