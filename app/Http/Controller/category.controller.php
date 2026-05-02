@@ -39,11 +39,11 @@ class categories {
 
             //validation
             if(!empty($name) && !empty($type)){
-                if(!in_array($type, ['income','expenses'])){
+                if(!\in_array($type, ['income','expenses'])){
                     $errMsg[] = "please Select a valid category";
                 }
 
-                $newCategoryId = $this->category->addToCategory($userId, $name, $type);
+                $newCategoryId = $this->category->create($userId, $name, $type);
                 if ($newCategoryId) {
                     if (isset($_POST['btn'])) {
                         header("location: ". BASE_URL . "/transaction/create/$newCategoryId");

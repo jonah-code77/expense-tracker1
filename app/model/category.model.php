@@ -4,14 +4,20 @@ namespace App\Model;
 use App\Core\Model;
 
 class Category extends Model {
-    //Perform Crud first
-
     //add to category
-    public function addToCategory($userId,$name,$type){
-        $sql = "INSERT INTO categories(user_id, name, type, created_at) VALUES(?, ?, ?, NOW())";
+    public function create($userId,$name,$type){
+        $sql = "INSERT IGNORE INTO categories(user_id, name, type, created_at) VALUES(?, ?, ?, NOW())";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$userId,$name,$type]);
         return $this->conn->lastInsertId();
+    }
+
+    // in Category model, add a new method
+    public function createDefault($userId, $name, $type){
+        $sql  = "INSERT IGNORE INTO categories(user_id, name, type, is_default, created_at) 
+                VALUES(?, ?, ?, 1, NOW())";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$userId, $name, $type]);
     }
 
     //edit category

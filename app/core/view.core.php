@@ -15,9 +15,7 @@ class View {
         $file = __DIR__ . ("/../view/$url.view.php");
 
         $paths = explode('/', $url);
-        $folder = $paths[0];
-        //$page = $paths[1] ?? 'index';
-        //self::$currentPage = $page;  
+        $folder = $paths[0]; 
 
         if (file_exists($file)) {
             $data = array_merge(self::$shared, $data);
@@ -40,7 +38,6 @@ class View {
             $content = ob_get_clean();
 
             if (file_exists($layoutFile)) {
-                //$data['currentPage'] = self::$currentPage;
                 extract($data);
                 require $layoutFile;
 
@@ -77,6 +74,8 @@ class View {
     public static function getCurrentPage(){
         self::$currentPage ?? '';
     }
+
+
 }
 
 
